@@ -11,11 +11,3 @@ var bp = require ("body-parser");
 var mysql = require("mysql");
 
 
-// Connection to mysql:
-module.exports = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	port: 3306,
-	database: 'burger_db'
-});

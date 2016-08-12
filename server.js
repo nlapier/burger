@@ -6,17 +6,18 @@ var mysql = require("mysql");
 var express = require("express");
 var app = express();
 
+// SQL connection
+var PORT = process.env.PORT || 3000;
 
-// Connection to mysql:
-module.exports = mysql.createConnection({
+var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: '',
-	port: 3306,
+	port: PORT,
 	database: 'burger_db'
 });
 
-//POST Override
+//POST Override (Do I actually need this??)
 app.use(override("_method"));
 
 //Set up Handlebars
@@ -32,3 +33,51 @@ app.use(express.static(process.cwd() + "/public"));
 app.use(bP.urlencoded({
 	extended: false
 }));
+
+//Retrieve all burgers
+app.get("/", function(request, response){
+	connection.query("SELECT * FROM burgers", function(error, data){
+		if (error){
+			throw error;
+		};
+
+		response.render("burger", {
+			burgers: data
+		});
+	});
+});
+
+//Add a burger
+app.post("/order", function(request, response){
+	connection.query("INSERT INTO burgers\
+		(burger_name, description, devoured)\
+		VALUES\
+		(?, ?, false)",
+		[request.body.name, request.body.description],
+		function(error, data){
+			if (error){
+				throw error;
+			};
+			response.redirect("/");
+		};
+	);
+});
+
+//Eat a burger
+app.put("/nomnom/:id", function(request, response){
+	connection.query("UPDATE burgers SET devoured = true WHERE id = ?", [request.body.id], function(error, data){
+		if (error){
+			throw error
+		};
+
+		response.redirect("/");
+	});
+});
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+{{!-- 
+
+Setup the burger.handlebars to have the template that Handlebars can render onto.
+
+Create a button in index.handlebars that will submit the user input into the database.
+
+ --}}
+{{#each burgers}}
+<div class="burgerDiv">
+	<h3>{{burger_name}}</h3>
+	<img src="http://gallery.yopriceville.com/Free-Clipart-Pictures/Fast-Food-PNG-Clipart/Hamburger_PNG_Vector_Picture">
+	<p>{{description}}</p>
+	<button id="devourBtn" type="submit">Devour it!</button>
+</div>
+{{/each}}
