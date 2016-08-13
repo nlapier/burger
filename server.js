@@ -13,7 +13,6 @@ var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: '',
-	port: PORT,
 	database: 'burger_db'
 });
 
@@ -36,14 +35,16 @@ app.use(bP.urlencoded({
 
 //Retrieve all burgers
 app.get("/", function(request, response){
+
 	connection.query("SELECT * FROM burgers", function(error, data){
 		if (error){
 			throw error;
 		};
 
-		response.render("burger", {
-			burgers: data
-		});
+		response.send("ABC");
+		// response.render("burger", {
+		// 	burgers: data
+		// });
 	});
 });
 
@@ -59,7 +60,7 @@ app.post("/order", function(request, response){
 				throw error;
 			};
 			response.redirect("/");
-		};
+		}
 	);
 });
 
@@ -74,7 +75,10 @@ app.put("/nomnom/:id", function(request, response){
 	});
 });
 
-
+//Listener
+app.listen(PORT, function () {
+	console.log('Listening on port ' + PORT);
+});
 
 
 
